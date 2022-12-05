@@ -10,21 +10,18 @@ var config = require('webgme/config/config.default'),
 
 
 
-config.visualization.panelPaths.push(__dirname + '/../src/visualizers/panels');
 
 
 
 
 // Visualizer descriptors
-config.visualization.visualizerDescriptors.push(__dirname + '/../src/visualizers/Visualizers.json');
+
 // Add requirejs paths
 config.requirejsPaths = {
-  'panels': './src/visualizers/panels',
-  'widgets': './src/visualizers/widgets',
-  'petrinet': './src/common'
+  'wdestup': './src/common'
 };
 
 
-config.mongo.uri = 'mongodb://127.0.0.1:27017/petrinet';
+config.mongo.uri = 'mongodb://127.0.0.1:27017/wdestup';
 validateConfig(config);
 module.exports = config;

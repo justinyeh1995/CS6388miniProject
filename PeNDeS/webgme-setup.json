@@ -1,29 +1,18 @@
 {
   "components": {
+    "seeds": {},
     "visualizers": {
-      "SimSM": {
-        "src": "panels/SimSM/SimSMPanel",
-        "title": "SimSM",
-        "panel": "src/visualizers/panels/SimSM",
+      "PeNDes": {
+        "src": "panels/PeNDes/PeNDesPanel",
+        "title": "PeNDes",
+        "panel": "src/visualizers/panels/PeNDes",
         "secondary": false,
-        "widget": "src/visualizers/widgets/SimSM"
-      }
-    },
-    "plugins": {
-      "ReachCheck": {
-        "src": "src/plugins/ReachCheck",
-        "test": "test/plugins/ReachCheck"
-      }
-    },
-    "seeds": {
-      "StateMachine": {
-        "src": "src/seeds/StateMachine"
+        "widget": "src/visualizers/widgets/PeNDes"
       }
     }
   },
   "dependencies": {
-    "visualizers": {},
-    "plugins": {},
-    "seeds": {}
+    "seeds": {},
+    "visualizers": {}
   }
 }
