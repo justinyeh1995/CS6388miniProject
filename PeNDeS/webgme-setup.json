@@ -1,6 +1,10 @@
 {
   "components": {
-    "seeds": {},
+    "seeds": {
+      "TestSeeds": {
+        "src": "src/seeds/TestSeeds"
+      }
+    },
     "visualizers": {
       "PeNDes": {
         "src": "panels/PeNDes/PeNDesPanel",
@@ -9,10 +13,21 @@
         "secondary": false,
         "widget": "src/visualizers/widgets/PeNDes"
       }
+    },
+    "plugins": {
+      "PetriClassification": {
+        "src": "src/plugins/PetriClassification",
+        "test": "test/plugins/PetriClassification"
+      },
+      "PetriNetClassificationPython": {
+        "src": "src/plugins/PetriNetClassificationPython",
+        "test": "test/plugins/PetriNetClassificationPython"
+      }
     }
   },
   "dependencies": {
     "seeds": {},
-    "visualizers": {}
+    "visualizers": {},
+    "plugins": {}
   }
 }
