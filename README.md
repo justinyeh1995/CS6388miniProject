@@ -19,6 +19,15 @@ Install `mongodb 4.4.16`
 
 `git clone https://github.com/justinyeh1995/CS6388miniProject.git`
 
+## Run the project
+
+`cd PeNDes`
+
+`webgme start`
+
+go to `http://localhost:8080`
+
+## Usecases of PetriNet
 
 ### Split Join Networks
 
