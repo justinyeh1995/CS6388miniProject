@@ -14,6 +14,7 @@ The actual data stores under /var/lib/mongodb/ cause my mongo --dbpath <path> co
 ## Environment Setup
 
 Install `nvm` & `npm` & `nodejs`
+
 Install `mongodb 4.4.16`
 
 ```sh
