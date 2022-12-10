@@ -3,6 +3,9 @@
     "seeds": {
       "TestSeeds": {
         "src": "src/seeds/TestSeeds"
+      },
+      "PetriNet_Init": {
+        "src": "src/seeds/PetriNet_Init"
       }
     },
     "visualizers": {
