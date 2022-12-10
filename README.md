@@ -17,9 +17,7 @@ Install `nvm` & `npm` & `nodejs`
 
 Install `mongodb 4.4.16`
 
-```sh
-git clone https://github.com/justinyeh1995/CS6388miniProject.git
-```
+`git clone https://github.com/justinyeh1995/CS6388miniProject.git`
 
 
 ### Split Join Networks
