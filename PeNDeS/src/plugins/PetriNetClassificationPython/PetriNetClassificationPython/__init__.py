@@ -5,6 +5,7 @@ The PetriNetClassificationPython-class is imported from both run_plugin.py and r
 import sys
 import logging
 from webgme_bindings import PluginBase
+import collections
 
 # Setup a logger
 logger = logging.getLogger('PetriNetClassificationPython')
@@ -39,25 +40,27 @@ class PetriNetClassificationPython(PluginBase):
         transitions = []
         arcs = []
         path2node = {}
-
+        inplaceSet = collections.defaultdict(list)
         for node in nodes:
             path2node[core.get_path(node)] = node
             if core.is_type_of(node, META['Place']):
                 places.append(node)
-            elif core.is_type_of(node, META['T2PArc']) or core.is_type_of(node, META['P2TArc']):
+            elif core.is_type_of(node, META['T2PArc']):
                 arcs.append(node)
+            elif core.is_type_of(node, META['P2TArc']):
+                arcs.append(node)
+                t = core.get_pointer_path(arc, 'dst')
+                p = core.get_pointer_path(arc, 'src')
+                inplaceSet[t].append(p)
             elif core.is_type_of(node, META['Transition']):
                 transitions.append(node)
 
         def free_choice(self):
-            for tran in transitions:
-              path = core.get_path(tran)
-              inplace = 0
-              for arc in arcs:
-                if path == core.get_pointer_path(arc, 'dst'):
-                  inplace += 1
-                if inplace > 1:
+            prev = set()
+            for inplace in inplaceSet.values():
+                if not prev & inplace:
                   return False
+                prev = inplace
             return True
 
         def state_machine(self):
