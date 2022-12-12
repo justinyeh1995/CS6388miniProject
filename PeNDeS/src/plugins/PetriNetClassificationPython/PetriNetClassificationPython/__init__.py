@@ -35,19 +35,72 @@ class PetriNetClassificationPython(PluginBase):
         self.namespace = None
         META = self.META
         
-        # get every types of nodes
+        places = []
+        transitions = []
+        arcs = []
+        path2node = {}
 
-        # classify graph
-    def isWFlow(self):
-        return 
-    def isFChoice(self):
-        return
-    def isSMachine(self):
-        ######
-        ## State machine - a petri net is a state machine if every transition has exactly one inplace and one outplace.
-        ######
-        return 
-    def isMGraph(self):
-        return
+        for node in nodes:
+            path2node[core.get_path(node)] = node
+            if core.is_type_of(node, META['Place']):
+                places.append(node)
+            elif core.is_type_of(node, META['T2PArc']) or core.is_type_of(node, META['P2TArc']):
+                arcs.append(node)
+            elif core.is_type_of(node, META['Transition']):
+                transitions.append(node)
 
+        def free_choice(self):
+            for tran in transitions:
+              path = core.get_path(tran)
+              inplace = 0
+              for arc in arcs:
+                if path == core.get_pointer_path(arc, 'dst'):
+                  inplace += 1
+                if inplace > 1:
+                  return False
+            return True
+
+        def state_machine(self):
+            balance = 0
+            for tran in transition:
+              path = core.get_path(tran)
+              for arc in arcs:
+                if path == core.get_pointer_path(arc, 'dst'):
+                  balance += 1
+                elif path == core.get_pointer_path(arc, 'src'):
+                  balance -= 1
+            res = balance <= 1 and balance >= -1
+            return res
+
+        def marked_graph(self):
+            for tran in transitions:
+              path = core.get_path(tran)
+              inplace = 0
+              for arc in arcs:
+                if path == core.get_pointer_path(arc, 'dst'):
+                  inplace += 1
+                if inplace != 1:
+                  return False
+
+            for place in places:
+              path = core.get_path(place)
+              outplace = 0
+              for arc in arcs:
+                if path == core.get_pointer_path(arc, 'src'):
+                  outplace += 1
+                if outplace != 1:
+                  return False
+            return True
+
+        def workflow(self):
+            return True
+
+        if self.free_choice():
+            self.send_notification("This is a Free Choice PetriNet")
+        if self.state_machine():
+            self.send_notification("This is a StateMachine")
+        if self.marked_graph():
+            self.send_notification("This is a Marked Graph!")
+        if self.workflow():
+            self.send_notification("This is a Workflow PetriNet")
 
