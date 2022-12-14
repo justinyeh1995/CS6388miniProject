@@ -40,7 +40,9 @@ class PetriNetClassificationPython(PluginBase):
         transitions = []
         arcs = []
         path2node = {}
+        graph = collecitons.defaultdict(list)
         inplaceSet = collections.defaultdict(list)
+        outplaceSet = collections.defaultdict(list)
         for node in nodes:
             path2node[core.get_path(node)] = node
             if core.is_type_of(node, META['Place']):
@@ -51,11 +53,14 @@ class PetriNetClassificationPython(PluginBase):
                 arcs.append(node)
                 t = core.get_pointer_path(arc, 'dst')
                 p = core.get_pointer_path(arc, 'src')
+                graph[t].append(p) # go ref hw567
+                graph[p].append(t)
                 inplaceSet[t].append(p)
+                outplaceSet[p].append(t)
             elif core.is_type_of(node, META['Transition']):
                 transitions.append(node)
 
-        def free_choice(self):
+        def free_choice(self, inplaceSet):
             prev = set()
             for inplace in inplaceSet.values():
                 if not prev & inplace:
@@ -63,9 +68,9 @@ class PetriNetClassificationPython(PluginBase):
                 prev = inplace
             return True
 
-        def state_machine(self):
+        def state_machine(self, transitions):
             balance = 0
-            for tran in transition:
+            for tran in transitions:
               path = core.get_path(tran)
               for arc in arcs:
                 if path == core.get_pointer_path(arc, 'dst'):
@@ -75,7 +80,7 @@ class PetriNetClassificationPython(PluginBase):
             res = balance <= 1 and balance >= -1
             return res
 
-        def marked_graph(self):
+        def marked_graph(self, transitions, places):
             for tran in transitions:
               path = core.get_path(tran)
               inplace = 0
@@ -95,8 +100,37 @@ class PetriNetClassificationPython(PluginBase):
                   return False
             return True
 
-        def workflow(self):
-            return True
+        def workflow(self, inplaceSet, outplaceSet, transitions, places):
+            ## must be exactly one source and exactly one sink
+            cntSrc = cntDst = 0
+            for p in places:
+                if p not in inplaceSet.keys():
+                    src = p
+                    cntSrc += 1
+                if cntSrc > 1:
+                    return False
+         
+            for t in transitions:
+                if t not in outplaceSet.keys():
+                    dst = t
+                    cntDst += 1
+                if cntDst > 1:
+                    return False
+
+            ## if exactly one source and exactly one sink, all other places & transitions must be on path from source to sink.
+            seen = set()
+            allNodes = set(trainsitions) | set(places)
+            # do BFS and add nodes to seen
+            q. collections.deque()
+            q.append(src)
+            while q:
+                node = q.popleft()
+                seen.add(node)
+                for n in graph[node]:
+                  if n not in seen:
+                    q.append(node)
+            
+            return len(seen) == len(allNodes)
 
         if self.free_choice():
             self.send_notification("This is a Free Choice PetriNet")
