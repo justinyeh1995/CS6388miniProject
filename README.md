@@ -23,6 +23,7 @@ The actual data stores under /var/lib/mongodb/ cause my mongo --dbpath <path> co
 ## What is a PetriNet
 
 "A Petri Net is a collection of directed arcs connecting places and transitions. Places may hold tokens. The state or marking of a net is its assignment of tokens to places.
+
 ## Usecases of PetriNet
 
 ### A real world usecase: Split Join Networks
@@ -30,6 +31,10 @@ The actual data stores under /var/lib/mongodb/ cause my mongo --dbpath <path> co
 Expressing events happening in parallel is often necessary. 
 This net shows how a single, sequential process can be split into two branches which run in parallel and then sync. 
 The concept of parallel computing is an important one.
+
+## Some notes
+
+The plugin classifier is written but it does not show on the visualizations, hoping to fix this issue real quick...
 
 ## Ideas references
 - [petrinet.org](http://petrinet.org/)
