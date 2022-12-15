@@ -129,6 +129,18 @@ define([
         this._logger.debug('_eventCallback \'' + events.length + '\' items - DONE');
     };
 
+    /* * * * * * * * Machine manipulation functions * * * * * * * */
+    //SimVizControl.prototype._initPetriNet = function () {
+    //  const rawMETA = this._client.getAllMetaNodes();
+    //  const META = {};
+    //  const self = this;
+    //  rawMETA.forEach((node) => {
+    //    META[node.getAttribute("name")] = node.getId(); //we just need the id...
+    //  });
+    //  const petriNetNode = this._client.getNode(this._currentNodeId);
+    //  const elementIds = petriNetNode.getChildrenIds();
+    //};
+
     PeNDesControl.prototype._onLoad = function (gmeId) {
         var description = this._getObjectDescriptor(gmeId);
         this._widget.addNode(description);
@@ -150,6 +162,10 @@ define([
             this.selectedObjectChanged(activeObjectId);
         }
     };
+
+    /* * * * * * * * Visualizer manipulations * * * * * * * */
+    
+    // psuedo code
 
     /* * * * * * * * Visualizer life cycle callbacks * * * * * * * */
     PeNDesControl.prototype.destroy = function () {
@@ -239,6 +255,42 @@ define([
             }
         });
         this._toolbarItems.push(this.$cbShowConnection);
+
+        /************** Run Plugin button ****************/
+        //modifications from austin's work
+        self.$btnClassifier = toolBar.addButton({
+          title: "Classification",
+          icon: "glyphicon glyphicon-sunglasses",
+          clickFn: function (/*data*/) {
+            const context = self._client.getCurrentPluginContext(
+              "PetriNetClassificationPython",
+              self._currentNodeId,
+              []
+            );
+            // fill out or pass an empty object as the plugin config otherwise we might get errors...
+            context.pluginConfig = {};
+            self._client.runServerPlugin(
+              "PetriNetClassificationPython",
+              context,
+              function (err, result) {
+                console.log("Errors :", err);
+                console.log("Results:", result);
+              }
+            );
+          },
+        });
+        this._toolbarItems.push(this.$btnClassifier);
+
+        /************** Reset visualizer button ****************/
+        //self.$btnResetMachine = toolBar.addButton({
+        //  title: "Reset simulator",
+        //  text: "Reset simulator  ",
+        //  icon: "glyphicon glyphicon-fast-backward",
+        //  clickFn: function (/*data*/) {
+        //    self._widget.resetMachine();
+        //  },
+        //});
+        //self._toolbarItems.push(self.$btnResetMachine);
 
         this._toolbarInitialized = true;
     };
