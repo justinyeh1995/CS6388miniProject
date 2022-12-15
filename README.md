@@ -16,7 +16,7 @@ The actual data stores under /var/lib/mongodb/ cause my mongo --dbpath <path> co
 
 - Install pakages `npm install` 
 
-- To run the project, tyep `webgme start`
+- To run the project, type `webgme start`
 
 - Go to `http://localhost:8888` to see the frontend.
 
