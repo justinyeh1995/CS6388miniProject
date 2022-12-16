@@ -35,6 +35,8 @@ The concept of parallel computing is an important one.
 ## Some notes
 
 The plugin classifier is written but it does not show on the visualizations, hoping to fix this issue real quick...
+(update) had to manually enable plugin through the META tabe at the bottm-right
+(pending) errors popping up at the server side when I ran the plugin, currently not sure how to debug it
 
 ## Ideas references
 - [petrinet.org](http://petrinet.org/)
